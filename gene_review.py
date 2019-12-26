@@ -17,7 +17,7 @@ GHR_GENE_BASE_URL = 'https://www.ncbi.nlm.nih.gov/books/'
 
 
 def read_excel():
-    workbook = xlrd.open_workbook('/home/liuxi/Desktop/download-books1.xls')
+    workbook = xlrd.open_workbook('/home/liuxi/Documents/项目/gene_review/download-bookss.xls')
     sheet_names = workbook.sheet_names()
     # print(sheet_names)
     for sheet_name in sheet_names:
@@ -25,7 +25,6 @@ def read_excel():
         if sheet_name == 'Sheet1':
             sheet_xls = workbook.sheet_by_name(sheet_name)
             col = sheet_xls.col_values(0)  # 获取第一列内容
-            col.pop(0)
             generate_intermediate_sheet(col)
 
 
@@ -39,7 +38,7 @@ def generate_intermediate_sheet(col):
         # print(columns)
         sheet.write(row_count, 0, columns)
         # URL地址
-        path = '/home/liuxi/Documents/项目/geneReview/geneReviewData1/' + columns + '.html'
+        path = '/home/liuxi/Documents/项目/geneReview/books/' + columns + '.html'
         # headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36c'}
         # req = requests.get(test_url)
         # 抓取页面数据
@@ -83,7 +82,7 @@ def generate_module_data_sheet(lists, col):
         # print(columns)
         ws1.cell(row_count, 1).value = columns
         # URL地址
-        path = '/home/liuxi/Documents/项目/geneReview/geneReviewData1/' + columns + '.html'
+        path = '/home/liuxi/Documents/项目/gene_review/books/' + columns + '.html'
         # 抓取页面数据
         with open(path, 'r') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
@@ -122,10 +121,10 @@ def generate_gene_review_data_sheet(col):
     worksheet1['D1'] = '致病机制'
     row_count = 2
     for columns in col:
-        # print(columns)
+        print(columns)
         worksheet1.cell(row_count, 1).value = columns
         # URL地址
-        path = '/home/liuxi/Documents/项目/geneReview/geneReviewData1/' + columns + '.html'
+        path = '/home/liuxi/Documents/项目/gene_review/books/' + columns + '.html'
         # 抓取页面数据
         with open(path, 'r') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
@@ -152,7 +151,7 @@ def generate_gene_review_data_sheet(col):
                             worksheet1.cell(row_count, 3, link_text)
                             worksheet1.cell(row_count, 2, name)
                             row_count = row_count + 1
-    workbook.save('gene_review_excel.xlsx')
+    workbook.save('gene_review_page_excel.xlsx')
 
 
 read_excel()
