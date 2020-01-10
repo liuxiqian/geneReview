@@ -67,8 +67,9 @@ def generate_intermediate_sheet(col):
     # print(lists)
     new_lists = list(set(lists))
     print(new_lists)
-    # generate_module_data_sheet(new_lists, col)
-    generate_gene_review_data_sheet(col)
+    generate_module_data_sheet(new_lists, col)
+    # generate_gene_review_data_sheet(col)
+
 
 def generate_module_data_sheet(lists, col):
     workbook = openpyxl.Workbook()
