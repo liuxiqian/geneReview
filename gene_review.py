@@ -67,8 +67,8 @@ def generate_intermediate_sheet(col):
     # print(lists)
     new_lists = list(set(lists))
     print(new_lists)
-    generate_module_data_sheet(new_lists, col)
-    # generate_gene_review_data_sheet(col)
+    # generate_module_data_sheet(new_lists, col)
+    generate_gene_review_data_sheet(col)
 
 
 def generate_module_data_sheet(lists, col):
@@ -142,7 +142,7 @@ def generate_gene_review_data_sheet(col):
                     link = child.find('a')['href']
                     link_name = link.split('#')[1]
                     link_text = soup.find('div', id=link_name).getText()
-                    regex = re.compile(r'Loss[-| +]of[-| +]function|Gain[-| +]of[-| +]function|activating|activation|increased +gene +dosage|dominant[-| +]negative|fusion')
+                    regex = re.compile(r'Loss[-| +]of[-| +]function|Gain[-| +]of[-| +]function|activating|activation|increased +gene +dosage|dominant[-| +]negative|fusion', re.I)
                     search_objs = regex.findall(link_text)
                     search_obj = list(set(search_objs))
                     # print(search_obj)
