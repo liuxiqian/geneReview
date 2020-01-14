@@ -54,7 +54,7 @@ def generate_intermediate_sheet(col):
                 column_count = 1
                 for child in table.childGenerator():
                     delimiter = '!@#$%'
-                    name = child.getText(delimiter).split(delimiter)[0]
+                    name = child.getText(delimiter).split(delimiter)[0].strip()
                     # print(name)
                     sheet.write(row_count, column_count, name)  # row, column, value
                     lists.append(name)
@@ -67,8 +67,8 @@ def generate_intermediate_sheet(col):
     # print(lists)
     new_lists = list(set(lists))
     print(new_lists)
-    # generate_module_data_sheet(new_lists, col)
-    generate_gene_review_data_sheet(col)
+    generate_module_data_sheet(new_lists, col)
+    # generate_gene_review_data_sheet(col)
 
 
 def generate_module_data_sheet(lists, col):
@@ -96,7 +96,7 @@ def generate_module_data_sheet(lists, col):
                 # print(table)
                 for child in table.childGenerator():
                     delimiter = '!@#$%'
-                    name = child.getText(delimiter).split(delimiter)[0]
+                    name = child.getText(delimiter).split(delimiter)[0].strip()
                     link = child.find('a')['href']
                     link_name = link.split('#')[1]
                     link_text = soup.find('div', id=link_name).getText()
@@ -109,7 +109,7 @@ def generate_module_data_sheet(lists, col):
                 ws1.cell(row_count, 2).value = ''
         row_count = row_count + 1
     workbook.save('test_gene_review_page2.xls')
-    generate_gene_review_data_sheet(col)
+    # generate_gene_review_data_sheet(col)
 
 
 def generate_gene_review_data_sheet(col):
