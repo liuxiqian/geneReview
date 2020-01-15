@@ -5,6 +5,7 @@ import xlrd
 import xlwt
 from bs4 import BeautifulSoup
 import time
+import re
 
 
 GHR_BASE_URL = 'https://ghr.nlm.nih.gov'
@@ -18,29 +19,75 @@ GHR_GENE_BASE_URL = 'https://www.ncbi.nlm.nih.gov/books/'
 data = []
 path = '/home/liuxi/Desktop/text.txt'
 convert_path = '/home/liuxi/Desktop/convert_text.txt'
+middle_path = '/home/liuxi/Desktop/middle_text.txt'
 test_path = '/home/liuxi/Desktop/test.txt'
 test_convert_path = '/home/liuxi/Desktop/test_convert_text.txt'
+
 
 def change_to_lower():
     with open(path) as txtfile:
         line = txtfile.readlines()
         for i, rows in enumerate(line):
-            if i in range(2, len(line)):  # 指定数据哪几行
+            if i in range(len(line)):  # 指定数据哪几行
                 print(rows)
                 data.append(rows)
         print("length", len(data))
+    # generate_middle_table()
     with open(convert_path, "w") as f:
         for i in range(len(data)):
+            data[i] = data[i].strip()
+            data[i] = data[i].replace('.', '')
             data[i] = data[i].replace(':', '')
             data[i] = data[i].replace('-', '_')
+            data[i] = data[i].replace(' / ', '_')
             data[i] = data[i].replace('/', '_')
-            data[i] = data[i].replace('textfield', 'TextField')
+            data[i] = data[i].replace('(', '')
+            data[i] = data[i].replace(')', '')
+            num = re.findall('\d+', data[i])
+            str1 = ''
+            num = str1.join(num)
+            data[i] = data[i].strip(num)
+            data[i] = data[i].strip()
+            if num:
+                num = ' ' + num
+            data[i] += num
+            data[i] = data[i].replace(' ', '_')
+            str2 = ' = models.TextField(null=True)'
+            data[i] += str2
+            data[i] += '\n'
             print(data[i])
             f.writelines(data[i])
     f.close()
 
 
-# change_to_lower()
+def generate_middle_table():
+    with open(middle_path, "w") as f:
+        for i in range(len(data)):
+            data[i] = data[i].strip()
+            data[i] = data[i].replace('.', '')
+            data[i] = data[i].replace(':', '')
+            data[i] = data[i].replace('-', '_')
+            data[i] = data[i].replace(' / ', '_')
+            data[i] = data[i].replace('/', '_')
+            data[i] = data[i].replace('(', '')
+            data[i] = data[i].replace(')', '')
+            num = re.findall('\d+', data[i])
+            str1 = ''
+            num = str1.join(num)
+            data[i] = data[i].strip(num)
+            data[i] = data[i].strip()
+            if num:
+                num = ' ' + num
+            data[i] += num
+            data[i] = data[i].replace(' ', '_')
+            data[i] += '\n'
+            print(data[i])
+            f.writelines(data[i])
+    f.close()
+
+
+change_to_lower()
+
 
 def duplicate_removal():
     with open(test_path) as txtfile:
@@ -58,4 +105,4 @@ def duplicate_removal():
     f.close()
 
 
-duplicate_removal()
+# duplicate_removal()
