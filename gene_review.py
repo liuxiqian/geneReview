@@ -54,7 +54,11 @@ def generate_intermediate_sheet(col):
                 column_count = 1
                 for child in table.childGenerator():
                     delimiter = '!@#$%'
-                    name = child.getText(delimiter).split(delimiter)[0].strip()
+                    name = child.getText(delimiter).split(delimiter)[0].replace('.', '').strip()
+                    num = re.findall('\\d+', name)
+                    str1 = ''
+                    num = str1.join(num)
+                    name = name.strip(num)
                     # print(name)
                     sheet.write(row_count, column_count, name)  # row, column, value
                     lists.append(name)
@@ -96,7 +100,12 @@ def generate_module_data_sheet(lists, col):
                 # print(table)
                 for child in table.childGenerator():
                     delimiter = '!@#$%'
-                    name = child.getText(delimiter).split(delimiter)[0].strip()
+                    name = child.getText(delimiter).split(delimiter)[0].replace('.', '').strip()
+                    num = re.findall(r'\d+', name)
+                    str1 = ''
+                    num = str1.join(num)
+                    name = name.strip(num)
+                    name = name.strip()
                     link = child.find('a')['href']
                     link_name = link.split('#')[1]
                     link_text = soup.find('div', id=link_name).getText()
