@@ -43,7 +43,7 @@ def change_to_lower():
             data[i] = data[i].replace('/', '_')
             data[i] = data[i].replace('(', '')
             data[i] = data[i].replace(')', '')
-            num = re.findall('\d+', data[i])
+            num = re.findall(r'\d+', data[i])
             str1 = ''
             num = str1.join(num)
             data[i] = data[i].strip(num)
@@ -71,7 +71,7 @@ def generate_middle_table():
             data[i] = data[i].replace('/', '_')
             data[i] = data[i].replace('(', '')
             data[i] = data[i].replace(')', '')
-            num = re.findall('\d+', data[i])
+            num = re.findall(r'\d+', data[i])
             str1 = ''
             num = str1.join(num)
             data[i] = data[i].strip(num)
