@@ -17,7 +17,7 @@ GHR_GENE_BASE_URL = 'https://www.ncbi.nlm.nih.gov/books/'
 
 
 def read_excel():
-    workbook = xlrd.open_workbook('/home/liuxi/Documents/项目/gene_review/download-bookss.xls')
+    workbook = xlrd.open_workbook('./download-bookss.xls')
     sheet_names = workbook.sheet_names()
     # print(sheet_names)
     for sheet_name in sheet_names:
@@ -38,7 +38,7 @@ def generate_intermediate_sheet(col):
         # print(columns)
         sheet.write(row_count, 0, columns)
         # URL地址
-        path = '/home/liuxi/Documents/项目/geneReview/books/' + columns + '.html'
+        path = './books/' + columns + '.html'
         # headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36c'}
         # req = requests.get(test_url)
         # 抓取页面数据
@@ -54,11 +54,7 @@ def generate_intermediate_sheet(col):
                 column_count = 1
                 for child in table.childGenerator():
                     delimiter = '!@#$%'
-                    name = child.getText(delimiter).split(delimiter)[0].replace('.', '').strip()
-                    num = re.findall('\\d+', name)
-                    str1 = ''
-                    num = str1.join(num)
-                    name = name.strip(num)
+                    name = child.getText(delimiter).split(delimiter)[0].strip()
                     # print(name)
                     sheet.write(row_count, column_count, name)  # row, column, value
                     lists.append(name)
@@ -87,7 +83,7 @@ def generate_module_data_sheet(lists, col):
         # print(columns)
         ws1.cell(row_count, 1).value = columns
         # URL地址
-        path = '/home/liuxi/Documents/项目/gene_review/books/' + columns + '.html'
+        path = './books/' + columns + '.html'
         # 抓取页面数据
         with open(path, 'r') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
@@ -100,12 +96,7 @@ def generate_module_data_sheet(lists, col):
                 # print(table)
                 for child in table.childGenerator():
                     delimiter = '!@#$%'
-                    name = child.getText(delimiter).split(delimiter)[0].replace('.', '').strip()
-                    num = re.findall(r'\d+', name)
-                    str1 = ''
-                    num = str1.join(num)
-                    name = name.strip(num)
-                    name = name.strip()
+                    name = child.getText(delimiter).split(delimiter)[0].strip()
                     link = child.find('a')['href']
                     link_name = link.split('#')[1]
                     link_text = soup.find('div', id=link_name).getText()
@@ -117,7 +108,7 @@ def generate_module_data_sheet(lists, col):
             else:
                 ws1.cell(row_count, 2).value = ''
         row_count = row_count + 1
-    workbook.save('test_gene_review_page2.xls')
+    workbook.save('test_gene_review_page2.xlsx')
     # generate_gene_review_data_sheet(col)
 
 
@@ -134,7 +125,7 @@ def generate_gene_review_data_sheet(col):
         print(columns)
         worksheet1.cell(row_count, 1).value = columns
         # URL地址
-        path = '/home/liuxi/Documents/项目/gene_review/books/' + columns + '.html'
+        path = './books/' + columns + '.html'
         # 抓取页面数据
         with open(path, 'r') as f:
             soup = BeautifulSoup(f.read(), 'html.parser')
